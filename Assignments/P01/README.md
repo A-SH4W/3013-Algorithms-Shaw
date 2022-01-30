@@ -7,6 +7,7 @@
 |   #   | File     | Description                      |
 | :---: | -------- | -------------------------------- |
 |   1   | main.cpp | Main driver of my list program . |
+|   2   | nums.dat | File of integer values. |
 
 
 ### Instructions
