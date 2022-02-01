@@ -1,1 +1,23 @@
+##########################################
+   Assignment 4 - Resizing the stack
+   CMPS 3013                        
+   Aodhan Shaw                      
 
+   Config Params:                   
+     Full Threshold: 0.85
+     Shrink Threshold: 0.15
+     Grow Ratio: 2
+     Shrink Ratio: 0.5
+
+   Processed 100000 commands
+
+   Max Stack Size: 40960
+   End Stack Size: 10
+   Stack Resized: 24 times
+
+##########################################
+
++------------+
+Stack : 
+8734904
++------------+
