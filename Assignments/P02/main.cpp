@@ -54,9 +54,10 @@ struct wordNode{
  * 
  * Description:
  *      linked list that hold wordNodes
- * Private Method:
+ * Private Variables:
  *      - wordNode *head, *tail
- *
+ * Public Variables:
+ *      
  * Public Methods:
  *      - linkedList()
  *      - display()
@@ -78,27 +79,66 @@ class linkedList{
     tail = NULL;
   }
 
+  /**
+  * Public void: display
+  * 
+  * Description:
+  *      displays linked list
+  * 
+  * Params:
+  *      NULL
+  * 
+  * Returns:
+  *      N/A
+  */
+
   void display(){
     wordNode *tmp;
         tmp = head;
-        while (tmp != NULL)
+        while (tmp != NULL)     // traverses list to print values
         {
             cout << tmp->word << endl;
             tmp = tmp->next;
         }
     }
 
+  /**
+  * Public void: loadWords
+  * 
+  * Description:
+  *      loads words into linked list
+  * 
+  * Params:
+  *      NULL
+  * 
+  * Returns:
+  *      N/A
+  */  
+
   void loadWords(){
     ifstream fin;
     string line;
     fin.open("dictionary.txt");
 
-    while(getline(fin,line))
+    while(getline(fin,line))  // while loop that passes each word to addNode function   
     {
       addNode(line);
     }
     cout << termcolor::magenta << "Words Loaded!\n"<< termcolor::reset;
-  }  
+  }
+
+  /**
+  * Public void: addNode
+  * 
+  * Description:
+  *      adds new node
+  * 
+  * Params:
+  *      NULL
+  * 
+  * Returns:
+  *      N/A
+  */  
 
   void addNode(string line){
     wordNode *tmp = new wordNode;
@@ -117,23 +157,67 @@ class linkedList{
     }
   }
 
-vector<string> findMatches(linkedList &LL, string substring){
+/**
+* Public vector<string>: slicing
+* 
+* Description:
+*      slices vector
+* 
+* Params:
+*      NULL
+* 
+* Returns:
+*      vector<string>
+*/
+// citation - https://www.geeksforgeeks.org/slicing-a-vector-in-c/
 
+vector<string> slicing(vector<string>& arr, int X, int Y)
+{
+ 
+    // Starting and Ending iterators
+    auto start = arr.begin() + X;
+    auto end = arr.begin() + Y + 1;
+ 
+    // To store the sliced vector
+    vector<string> result(Y - X + 1);
+ 
+    // Copy vector using copy function()
+    copy(start, end, result.begin());
+ 
+    // Return the final sliced vector
+    return result;
+}
+
+/**
+* Public vector<string>: findMatches
+* 
+* Description:
+*      finds matches in strings within linked list
+* 
+* Params:
+*      NULL
+* 
+* Returns:
+*      vector<string>
+*/
+
+vector<string> findMatches(linkedList &LL, string substring, int limit=10){
   vector<string> matches;
-  size_t found;
+  size_t found;         // size_t is an integer position of
+                        // found item. -1 if its not found. 
   wordNode *tmp;
   tmp = head;
+  // while loop to iterate through list
         while (tmp != NULL)
         {
           found = tmp->word.find(substring);
-          matches.push_back(tmp->word);
-          if(found != string::npos){
-            matches.push_back(tmp->word);
+          if(found == 0){
+            matches.push_back(tmp->word);     // load matches into vector
           }
           tmp = tmp->next;
         }
-
-  return matches;
+  cout << termcolor::red << matches.size() << termcolor::reset; // prints number of words found
+  return slicing(matches, 0, limit);  // function call to slice vector
   }
 
 };
@@ -143,19 +227,21 @@ int main() {
 linkedList LL;          // instance of linked linkedList
 vector<string> matches; // vector to hold matches
 string word = "";
-char k;
-int loc;
+char k;                 // holder for character being typed
+int loc;                // location of substring to change its color
 
 Timer T;                // initialize timer
 T.Start();
 
 LL.loadWords();         // function call to load linked list 
+//cout << LL.size;
 T.End();
 
 cout << termcolor::red;
 cout << T.MilliSeconds() << termcolor::reset << " milliseconds to read in and load words into linked list\n\n";
-
+cout << "------------------------------------------------------------\n";
 cout << termcolor::cyan << "TYPE IN LOWERCASE KEYS TO SEARCH. TYPE CAPITAL 'Z' TO QUIT." << termcolor::reset << endl;
+cout << "------------------------------------------------------------\n\n";
 
 while ((k = getch()) != 'Z') {
   T.Start();  // start it
@@ -182,18 +268,18 @@ while ((k = getch()) != 'Z') {
     word += k; // append char to word
   }
 
-
+matches.clear();
 matches = LL.findMatches(LL, word);
 
           if ((int)k != 32) { // if k is not a space print it
             T.End();
-            cout << T.NanoSeconds() << " nano" << endl;
+            cout << " words found in "  << termcolor::red << T.MilliSeconds() << termcolor::reset << " Milliseconds" << endl;
             cout << "Keypressed: " << termcolor::blue << k << " = " << (int)k << termcolor::reset << endl;
-            cout << "Current Substr: " << termcolor::red << word << termcolor::reset << endl;
+            cout << "Current Substring: " << termcolor::bright_yellow << word << termcolor::reset << endl;
             cout << "Words Found: ";
             cout << termcolor::green;
             // This prints out all found matches
-            for (int i = 0; i < word.size(); i++) {
+            for (int i = 0; i < matches.size(); i++) {
                 // find the substring in the word
                 loc = matches[i].find(word);
                 // if its found
