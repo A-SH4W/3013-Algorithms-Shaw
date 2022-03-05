@@ -1,6 +1,6 @@
-## P02 - Processing in linear time
+## P02 - Processing in Trie Tree time
 ### Aodhan Shaw
-### Description: (In this assignment I will )
+### Description: (In this assignment I will process the time it takes to utilise a trie tree)
 
 ### Files
 
