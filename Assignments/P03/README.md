@@ -1,4 +1,4 @@
-## P03 - Processing in tri tree time
+## P03 - Processing in trie tree time
 ### Aodhan Shaw
 ### Description: (In this assignment I will process time it takes to utilize a trie tree )
 
